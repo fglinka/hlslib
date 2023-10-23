@@ -249,8 +249,9 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)|(arm64)|(ARM64)|(
   set(CMAKE_INSTALL_RPATH
       "${CMAKE_INSTALL_RPATH}:${VITIS_RUNTIME_LIB_FOLDER}:${VITIS_FP_DIR}")
 
-  find_path(Vitis_OPENCL_EXTENSIONS_INCLUDE_DIR cl_ext.h
+  find_path(Vitis_OPENCL_EXTENSIONS_INCLUDE_DIR cl_ext_xilinx.h
             PATHS ${VITIS_RUNTIME_DIR}/include
+                  ${VITIS_RUNTIME_DIR}/usr/include/xrt
             PATH_SUFFIXES 1_1/CL 1_2/CL 2_0/CL CL
             NO_DEFAULT_PATH)
   get_filename_component(Vitis_OPENCL_EXTENSIONS_INCLUDE_DIR 
