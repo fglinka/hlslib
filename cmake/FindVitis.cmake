@@ -40,7 +40,8 @@ if(NOT DEFINED VITIS_ROOT)
   find_path(VITIS_SEARCH_PATH v++ xocc 
             PATHS ENV XILINX_OPENCL ENV XILINX_VITIS ENV XILINX_SDACCEL
                   ENV XILINX_SDX
-            PATH_SUFFIXES bin)
+            PATH_SUFFIXES bin
+            NO_CMAKE_FIND_ROOT_PATH)
   get_filename_component(VITIS_ROOT ${VITIS_SEARCH_PATH} DIRECTORY) 
   mark_as_advanced(VITIS_SEARCH_PATH)
 
@@ -119,7 +120,8 @@ find_path(Vitis_HLS_INCLUDE_DIR hls_stream.h PATHS
           ${VITIS_ROOT}/../../Vivado/${Vitis_VERSION}/include
           ${VITIS_ROOT}/include
           ${VITIS_ROOT}/Vivado_HLS/include
-          NO_DEFAULT_PATH)
+          NO_DEFAULT_PATH
+          NO_CMAKE_FIND_ROOT_PATH)
 mark_as_advanced(Vitis_HLS_INCLUDE_DIR)
 
 if(Vitis_VPP OR (Vitis_MAJOR_VERSION GREATER 2018) OR
@@ -132,7 +134,7 @@ set(Vitis_USE_XRT ${VITIS_USE_XRT} CACHE STRING "Use XRT as runtime. Otherwise, 
 
 # Currently only x86 support
 
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)|(arm64)|(ARM64)|(aarch64)")
 
   #----------------------------------------------------------------------------
   # Floating point library
@@ -149,7 +151,8 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
                ${VITIS_ROOT}/Vivado_HLS/lnx64/tools/
                PATH_SUFFIXES
                fpo_v7_0
-               fpo_v7_1)
+               fpo_v7_1
+               CMAKE_FIND_ROOT_PATH_BOTH)
   mark_as_advanced(Vitis_FLOATING_POINT_LIBRARY)
 
   get_filename_component(VITIS_FP_DIR ${Vitis_FLOATING_POINT_LIBRARY}
@@ -160,11 +163,13 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)")
       ${Vitis_FLOATING_POINT_LIBMPFR} ${Vitis_FLOATING_POINT_LIBGMP})
 
   find_library(Vitis_FLOATING_POINT_LIBGMP gmp
-               PATHS ${VITIS_FP_DIR} NO_DEFAULT_PATH)
+               PATHS ${VITIS_FP_DIR} NO_DEFAULT_PATH
+               CMAKE_FIND_ROOT_PATH_BOTH)
   mark_as_advanced(Vitis_FLOATING_POINT_LIBGMP)
 
   find_library(Vitis_FLOATING_POINT_LIBMPFR mpfr
-               PATHS ${VITIS_FP_DIR} NO_DEFAULT_PATH)
+               PATHS ${VITIS_FP_DIR} NO_DEFAULT_PATH
+               ONLY_CMAKE_FIND_ROOT_PATH)
   mark_as_advanced(Vitis_FLOATING_POINT_LIBMPFR)
 
   #----------------------------------------------------------------------------
