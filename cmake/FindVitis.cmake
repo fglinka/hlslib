@@ -522,10 +522,12 @@ function(add_vitis_program
 
   # Optional debugging flags
   if(PROGRAM_DEBUGGING)
+    # Only specify --debug once, otherwise v++ will report an error
+    set(PROGRAM_LINK_FLAGS "${PROGRAM_LINK_FLAGS} --debug")
     foreach(KERNEL ${PROGRAM_KERNELS})
       # Append _1 to match the Vitis convention (only supports single compute unit kernels)
       get_target_property(KERNEL_NAME ${KERNEL} KERNEL_NAME)
-      set(PROGRAM_LINK_FLAGS "${PROGRAM_LINK_FLAGS} --debug --debug.chipscope ${KERNEL_NAME}_1")
+      set(PROGRAM_LINK_FLAGS "${PROGRAM_LINK_FLAGS} --debug.chipscope ${KERNEL_NAME}_1")
     endforeach()
   endif()
 
